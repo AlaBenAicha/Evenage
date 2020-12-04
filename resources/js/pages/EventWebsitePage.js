@@ -10,9 +10,10 @@ import Typography from '@material-ui/core/Typography';
 import Partners from '../components/Partners';
 import AddPartnerForm from '../components/AddPartnerForm';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
-import Avatar from '@material-ui/core/Avatar';
+import Avatar from '@material-ui/core/Avatar'
 
-function PageBuilder() {
+
+function EventWebsitePage() {
   const [partners, setPartners] = React.useState([]);
 
   const componentWillMount = () => {
@@ -30,42 +31,29 @@ function PageBuilder() {
   }
   return (
     <div>
-      <Box
-        position="absolute"
-        top={70}
-        left={1100}
-        zIndex="tooltip"
-      >
-      <Button variant="contained" color="primary" component="span" >
-        Save
-        </Button>
-        </Box>
-
-        <Box
-        position="absolute"
-        top={70}
-        left={1200}
-        zIndex="tooltip"
-      >
-      <Button variant="contained" color="primary" component="span" >
-        Publish
-        </Button>
-        </Box>
+      
       <Grid container
         direction="row"
         justify="center"
         alignItems="flex-start"
       >
-        <CoverImageUpload />
+        <Skeleton variant="rect" width={800} height={200} />
       </Grid>
-   
-      <EventLogoUpload />
-      
+      <Box
+        position="absolute"
+        top={150}
+        left={350}
+        zIndex="tooltip"
+      >
+      <Skeleton variant="circle">
+        <Avatar style={{ height: '100px', width: '100px' }}/>
+        </Skeleton>
+        </Box>
 
         <Box
         position="absolute"
-        top={500}
-        left={350}
+        top={300}
+        left={250}
         zIndex="tooltip"
       >
       <Typography variant="h4">
@@ -75,16 +63,16 @@ function PageBuilder() {
 
         <Box
         position="absolute"
-        top={502}
-        left={900}
+        top={302}
+        left={800}
         zIndex="tooltip"
       >
         <LocationOnIcon  />
         </Box>
         <Box
         position="absolute"
-        top={500}
-        left={930}
+        top={300}
+        left={830}
         zIndex="tooltip"
       >
       <Typography variant="h6">
@@ -94,8 +82,8 @@ function PageBuilder() {
 
         <Box
         position="absolute"
-        top={550}
-        left={350}
+        top={350}
+        left={250}
         right={200}
         zIndex="tooltip"
       >
@@ -113,7 +101,7 @@ function PageBuilder() {
 
         <Box
         position="absolute"
-        top={780}
+        top={580}
         left={1000}
         zIndex="tooltip"
       >
@@ -122,7 +110,7 @@ function PageBuilder() {
         </Button>
         </Box>
         <Box width={800} height={200} marginRight={0.5} position="absolute"
-        top={700}
+        top={500}
         left={350}
         zIndex="modal">
         <Skeleton variant="rect" width={800} height={200} />
@@ -130,7 +118,7 @@ function PageBuilder() {
 
           <Box
         position="absolute"
-        top={1000}
+        top={800}
         left={1000}
         zIndex="tooltip"
       >
@@ -139,7 +127,7 @@ function PageBuilder() {
         </Button>
         </Box>
           <Box width={800} height={200} marginRight={0.5} position="absolute"
-        top={920}
+        top={720}
         left={350}
         zIndex="modal">
         <Skeleton variant="rect" width={800} height={200} />
@@ -147,7 +135,7 @@ function PageBuilder() {
 
           <Box
         position="absolute"
-        top={1220}
+        top={1020}
         left={1000}
         zIndex="tooltip"
       >
@@ -156,7 +144,7 @@ function PageBuilder() {
         </Button>
         </Box>
           <Box width={800} height={200} marginRight={0.5} position="absolute"
-        top={1140}
+        top={940}
         left={350}
         zIndex="modal">
         <Skeleton variant="rect" width={800} height={200} />
@@ -165,7 +153,7 @@ function PageBuilder() {
 
         <Box
         position="absolute"
-        top={1400}
+        top={1200}
         left={400}
         zIndex="modal"
       >
@@ -176,22 +164,10 @@ function PageBuilder() {
         <Avatar style={{ height: '100px', width: '100px' }}/>
         </Skeleton>
         </Box>
-
-
-        <Box
-        position="absolute"
-        top={1455}
-        left={500}
-        zIndex="modal"
-      >
-      <Partners>
-        <AddPartnerForm />
-      </Partners>
-      {partners}
-      </Box>
+      
       <Box
         position="absolute"
-        top={1500}
+        top={1300}
         left={600}
         bottom={100}
         zIndex="modal"
@@ -200,7 +176,7 @@ function PageBuilder() {
       </Box>
       <Box
         position="absolute"
-        top={1900}
+        top={1700}
         left={520}
         bottom={100}
         zIndex="modal"
@@ -223,4 +199,4 @@ function PageBuilder() {
     </div>
   );
 }
-export default PageBuilder;
+export default EventWebsitePage;

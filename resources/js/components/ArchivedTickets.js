@@ -9,45 +9,54 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import './style.scss';
+import axios from 'axios';
 
-const useStyles = makeStyles({
-    table: {
-        minWidth: 500,
-    },
-});
 
-function createData(ticket, sold) {
-    return { ticket, sold };
-}
 
-const rows = [
-    createData('Ticket 4', 0),
-];
 
-export default function ArchivedTickets() {
-    const classes = useStyles();
+class ArchivedTickets extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            archivedtickets: []
+        };
+    }
 
-    return (
-        <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Ticket</TableCell>
-                        <TableCell align="right">Sold</TableCell>
-                       
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.name}>
-                            <TableCell component="th" scope="row">
-                                {row.ticket}
-                            </TableCell>
-                            <TableCell align="right">{row.sold}</TableCell>
+   
+    componentWillMount() {
+        axios.get('http://localhost:8000/api/archivedtickets').then((response) => {
+            this.setState({
+                archivedtickets: response.data
+            })
+        });
+    }
+    
+    
+    render() {
+
+
+        return (
+
+            <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Ticket Name</TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-    );
+                    </TableHead>
+                    <TableBody>
+                        {this.state.archivedtickets.map((ticket) => (
+                            <TableRow key={ticket.ticketname}>
+                                <TableCell component="th" scope="row">
+                                    {ticket.ticketname}
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+        );
+    }
 }
+export default ArchivedTickets;

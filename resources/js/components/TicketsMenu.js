@@ -10,6 +10,8 @@ import CreateTicket from './CreateTicket';
 import ListOfTickets from './ListOfTickets';
 import Grid from '@material-ui/core/Grid';
 import ArchivedTickets from './ArchivedTickets';
+import { Container } from '@material-ui/core';
+import { Paper } from '@material-ui/core';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -67,13 +69,10 @@ export default function TicketsMenu() {
           <Tab label="List Of Tickets" {...a11yProps(0)} />
           <Tab label="Create Ticket" {...a11yProps(1)} />
           <Tab label="Archived Tickets" {...a11yProps(2)} />
-          
         </Tabs>
       </AppBar>
-      <TabPanel value={value}  index={0}>
-     
-     <ListOfTickets />
-       
+      <TabPanel value={value} index={0}>
+        <ListOfTickets />
       </TabPanel>
       <TabPanel value={value} index={1}>
         <CreateTicket />
@@ -81,7 +80,7 @@ export default function TicketsMenu() {
       <TabPanel value={value} index={2}>
         <ArchivedTickets />
       </TabPanel>
-      
+
     </div>
   );
 }

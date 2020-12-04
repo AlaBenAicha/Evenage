@@ -61,6 +61,6 @@ class User extends Authenticatable implements JWTSubject
     }
     public function events()
     {
-        return $this->hasOne(Event::class);
+        return $this->hasOne('App\Event', 'foreign_key');
     }
 }

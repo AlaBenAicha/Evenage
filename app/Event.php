@@ -9,9 +9,10 @@ class Event extends Model
     protected $table = 'events';
     protected $fillable = [
         'eventname', 'eventlocation', 'eventstartdate', 'eventenddate', 'eventstarttime', 'eventendtime',
-        'eventdescription', 'eventcoverimage_id', 'eventlogo_id', 'eventpartners_id', 'eventprograms_id',
+        'eventdescription', 'eventcoverimage_id', 'eventlogo_id', 'eventpartners_id', 'eventprograms_id','user_id',
     ];
     protected $casts = [
+        'user_id'  =>  'integer',
         'eventcoverimage_id'  =>  'integer',
         'eventlogo_id'  =>  'integer',
         'eventpartners_id'  =>  'integer',

@@ -50,6 +50,7 @@ class EventController extends Controller
          $eventObj->eventenddate = $request->get('eventenddate');
          $eventObj->eventstarttime = $request->get('eventstarttime');
          $eventObj->eventendtime = $request->get('eventendtime');
+         $eventObj->user_id = $request->get('user_id');
         // echo($eventObj);
         //  $Event->eventname = $event->eventname;
         // $event->eventlocation = $request->eventlocation;

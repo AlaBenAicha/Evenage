@@ -35,19 +35,24 @@ class TicketController extends Controller
      */
     public function store(Request $request)
     {
-        $request->all();
+        if($request->getContent())
+       {
+        
         $ticket = new Ticket();
-        $ticket->event_id = $request->event_id;
-        $ticket->ticketname = $request->ticketname;
-        $ticket->ticketquantity = $request->ticketsquantity;
-        $ticket->ticketprice = $request->ticketprice;
-        $ticket->ticketstartdate = $request->ticketstartdate;
-        $ticket->ticketenddate = $request->ticketenddate;
-        $ticket->ticketstarttime = $request->ticketstarttime;
-        $ticket->ticketendtime = $request->ticketendtime;
-        $ticket->ticketimage = $request->ticketimage;
+        $ticket->id = $request->get('id');
+        $ticket->event_id = $request->get("event_id");
+        $ticket->ticketname = $request->get("ticketname");
+        $ticket->ticketquantity = $request->get("ticketquantity");
+        $ticket->ticketprice = $request->get("ticketprice");
+        $ticket->ticketstartdate = $request->get("ticketstartdate");
+        $ticket->ticketenddate = $request->get("ticketenddate");
+        $ticket->ticketstarttime = $request->get("ticketstarttime");
+        $ticket->ticketendtime = $request->get("ticketendtime");
+        $ticket->ticketimage = $request->get("ticketimage");
         $ticket -> save();
         return response()->json($ticket);
+    }
+    return response()->json('failed to add ticket');
     }
 
     /**
@@ -56,9 +61,10 @@ class TicketController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function show(Ticket $ticket)
+    public function show($id)
     {
-        //
+        $ticket = Ticket::find($id);
+        return $ticket;
     }
 
     /**
@@ -67,9 +73,11 @@ class TicketController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function edit(Ticket $ticket)
+    public function edit($id)
     {
-        //
+       
+
+
     }
 
     /**
@@ -79,9 +87,21 @@ class TicketController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Ticket $ticket)
+    public function update(Request $request, $id)
     {
-        //
+        $ticket = Ticket::find($id);
+
+        $ticket->id = $request->get('id');
+        $ticket->event_id = $request->get("event_id");
+        $ticket->ticketname = $request->get("ticketname");
+        $ticket->ticketquantity = $request->get("ticketquantity");
+        $ticket->ticketprice = $request->get("ticketprice");
+        $ticket->ticketstartdate = $request->get("ticketstartdate");
+        $ticket->ticketenddate = $request->get("ticketenddate");
+        $ticket->ticketstarttime = $request->get("ticketstarttime");
+        $ticket->ticketendtime = $request->get("ticketendtime");
+        $ticket->ticketimage = $request->get("ticketimage");
+        $ticket -> save();
     }
 
     /**
@@ -90,8 +110,9 @@ class TicketController extends Controller
      * @param  \App\Ticket  $ticket
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Ticket $ticket)
-    {
-        //
-    }
+    public function destroy ($id)
+        {   
+            $ticket = Ticket::find($id);
+            $ticket->delete();
+        }
 }

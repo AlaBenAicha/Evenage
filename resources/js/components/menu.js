@@ -10,9 +10,11 @@ import Details from './Details';
 import TicketsMenu from './TicketsMenu';
 import Stats from './Stats';
 import PaymentManagement from './PaymentManagement';
+import { useAuth } from '../context/auth';
+
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
-
+  
   return (
     <div
       role="tabpanel"
@@ -59,6 +61,7 @@ const useStyles = makeStyles((theme) => ({
 function Menu() {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  let {setCurrentUser, setToken, currentUser} = useAuth();
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -82,7 +85,7 @@ function Menu() {
         <Tab label="Payments" {...a11yProps(4)} />
       </Tabs>
       <TabPanel value={value} index={0}>
-        <Details />
+        <Details currentuser={currentUser}/>
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Stats />

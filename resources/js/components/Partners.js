@@ -21,12 +21,12 @@ import AddPartnerForm from './AddPartnerForm';
 
 const useStyles = makeStyles(theme => ({
   dialogWrapper: {
-      padding: theme.spacing(2),
-      position: 'absolute',
-      top: theme.spacing(5)
+    padding: theme.spacing(2),
+    position: 'absolute',
+    top: theme.spacing(5)
   },
   dialogTitle: {
-      paddingRight: '0px'
+    paddingRight: '0px'
   }
 }))
 
@@ -41,67 +41,60 @@ const PaperComponent = (props) => {
 export default function Partners(props) {
   const { title, children } = props;
   const [openPopup, setOpenPopup] = React.useState(false);
-  
-    const classes = useStyles();
-    const handleClose = () => {
-      setOpenPopup(false);
-    }
-    
 
-    const onFormSubmit= (e) =>  {
-      e.preventDefault()
-      this.UploadImage(this.state.image);
-    }
-  
-    const onChange = (e) => {
-      // this.setState({
-      //    image: e.target.result,
-      //   });
-      let files = e.target.files || e.dataTransfer.files;
-      if (!files.length)
-        return;
-      this.createPartner(files[0]);
-      this.setState({ partnerlogouploaded: true });
-    }
+  const classes = useStyles();
+  const handleClose = () => {
+    setOpenPopup(false);
+  }
+
+
+  const onFormSubmit = (e) => {
+    e.preventDefault()
+    this.UploadImage(this.state.image);
+  }
+
+  const onChange = (e) => {
+    // this.setState({
+    //    image: e.target.result,
+    //   });
+    let files = e.target.files || e.dataTransfer.files;
+    if (!files.length)
+      return;
+    this.createPartner(files[0]);
+    this.setState({ partnerlogouploaded: true });
+  }
   return (
 
     <div>
-     <Grid container spacing={3}>
-     
-     <Grid item xs={4}>
-     <IconButton onClick={()=>{setOpenPopup(true)}} variant="contained" component="span" aria-label="add">
-      <AddIcon />
-    </IconButton>
+      <Grid container spacing={3}>
 
-    <Dialog
-      open={openPopup}
-      onClose={handleClose}
-      PaperComponent={PaperComponent}
-      aria-labelledby="draggable-dialog-title"
-    >
-      <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-        Add partner
+        <Grid item xs={4}>
+          <IconButton onClick={() => { setOpenPopup(true) }} variant="contained" component="span" aria-label="add">
+            <AddIcon />
+          </IconButton>
+
+          <Dialog
+            open={openPopup}
+            onClose={handleClose}
+            PaperComponent={PaperComponent}
+            aria-labelledby="draggable-dialog-title"
+          >
+            <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
+              Add partner
       </DialogTitle>
-      <DialogContent dividers>
-        <AddPartnerForm />
-      </DialogContent>
-      <DialogActions>
-        <Button autoFocus onClick={handleClose} color="primary">
-          Cancel
+            <DialogContent dividers>
+              <AddPartnerForm />
+            </DialogContent>
+            <DialogActions>
+              <Button autoFocus onClick={handleClose} color="primary">
+                Cancel
         </Button>
-        
-      </DialogActions>
-    </Dialog>
 
+            </DialogActions>
+          </Dialog>
+        </Grid>
+      </Grid>
 
-
-
-
-
-
-    </Grid>
-     </Grid>
-    
     </div>
   )
 }
@@ -116,15 +109,15 @@ export default function Partners(props) {
     //   if (partnerlogouploaded) {
     //   <Grid item xs={4}>
     //     partners = <img style={{ width: 80, height: 80 }} src={this.state.image} />;
-      
+
     //     </Grid>
-      
-      
+
+
     // } else {
     //   partners = <Skeleton variant="rect" width={80} height={80} />;
     // }
     // )}
-    
+
     // const eventlogouploaded ='false';
     // let eventlogo;
     // if (eventlogouploaded) {
@@ -132,8 +125,8 @@ export default function Partners(props) {
     //   } else {
     //     coverimage=<Skeleton variant="rect" />;
     //   } 
-    
-    
+
+
 
 //   const [pictures, setPictures] = useState([]);
 

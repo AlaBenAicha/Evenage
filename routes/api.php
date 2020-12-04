@@ -1,8 +1,13 @@
 <?php
 Use App\Eventpartner;
 Use App\Ticket;
+use App\ArchivedTicket;
+use App\Event;
+Use App\Http\Controllers\EventController;
 Use App\Http\Controllers\EventpartnerController;
 Use App\Http\Controllers\TicketController;
+Use App\Http\Controllers\ArchivedTicketController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,7 +20,11 @@ Use App\Http\Controllers\TicketController;
 |
 */
 Route::resource('UploadImage', 'UploadImageController');
-Route::resource('events','EventController');
+Route::get('events', function() {
+    // If the Content-Type and Accept headers are set to 'application/json', // this will return a JSON structure. This will be cleaned up later.
+    return Event::all();
+});
+Route::post('events', 'EventController@store');
 Route::resource('eventcoverimages','EventcoverimagesController');
 Route::resource('eventlogos','EventlogosController');
 Route::get('eventpartners', function() {
@@ -28,6 +37,25 @@ Route::get('tickets', function() {
     return Ticket::all();
 });
 Route::post('tickets', 'TicketController@store');
+Route::get('tickets/{id}', function($id) {
+    return Ticket::find($id);
+});
+Route::put('tickets/{id}', function(Request $request, $id) {
+    $ticket = Ticket::findOrFail($id);
+    $ticket->update($request->all());
+
+    return $ticket;
+});
+Route::delete('tickets/{id}', function($id) {
+    Ticket::find($id)->delete();
+
+    return 204;
+});
+Route::post('archivedtickets', 'ArchivedTicketController@store');
+Route::get('archivedtickets', function() {
+    return ArchivedTicket::all();
+});
+
 // Route::post('eventpartners', [EventpartnerController::class, 'store']);
 // Route::resource('eventpartners','EventpartnerController');
 Route::resource('eventprograms','EventprogramsController');

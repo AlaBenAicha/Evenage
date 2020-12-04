@@ -14,6 +14,7 @@ import { useAuth } from '../context/auth';
 import FullPageSpinner from '../components/full-page-spinner';
 import EventWebsitePage from '../pages/EventWebsitePage';
 
+
 function App () {
   let { initializing } = useAuth();
   return (
@@ -27,7 +28,7 @@ function App () {
             <GuestRoute path="/login" component={Login} title="login"/>
             <GuestRoute path="/forgot-password" component={ForgotPassword} title="forgot password"/>
             <GuestRoute path="/password/reset/:token" component={ResetPassword} title="reset password"/>
-            <GuestRoute exact path="/events/:id" component={EventWebsitePage} title="event website page" />
+            <Route exact path="/eventwebsite" component={EventWebsitePage} title="event website page" />
             <AuthRoute path="/home" component={Home} title="home"/>
             <AuthRoute path="/profile/:id" component={Profile} title="profile"/>
             <Route component={NotFound}/>

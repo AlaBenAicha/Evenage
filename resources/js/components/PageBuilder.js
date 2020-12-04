@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CoverImageUpload from './CoverImageUpload';
 import EventLogoUpload from './EventLogoUpload';
 import EventTimeline from './Timeline';
@@ -11,13 +11,22 @@ import Partners from './Partners';
 import AddPartnerForm from './AddPartnerForm';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Avatar from '@material-ui/core/Avatar';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  Switch
+} from "react-router-dom";
+import EventWebsitePage from '../pages/EventWebsitePage';
+import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 function PageBuilder() {
   const [partners, setPartners] = React.useState([]);
+  const history = useHistory();
+  useEffect (() => {
 
-  const componentWillMount = () => {
-
-    axios.get('http://localhost:8000/eventpartners').then((response) => {
+    axios.get('http://localhost:8000/api/eventpartners').then((response) => {
 
       setPartners({
 
@@ -27,7 +36,7 @@ function PageBuilder() {
 
     });
 
-  }
+  })
   return (
     <div>
       <Box
@@ -47,9 +56,11 @@ function PageBuilder() {
         left={1200}
         zIndex="tooltip"
       >
-      <Button variant="contained" color="primary" component="span" >
+      
+      <Button variant="contained" color="primary" component="span" onClick={()=> history.push("/eventwebsite")}>
         Publish
         </Button>
+        
         </Box>
       <Grid container
         direction="row"
@@ -187,7 +198,7 @@ function PageBuilder() {
       <Partners>
         <AddPartnerForm />
       </Partners>
-      {partners}
+      {/* {partners} */}
       </Box>
       <Box
         position="absolute"

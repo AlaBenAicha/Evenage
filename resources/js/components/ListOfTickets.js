@@ -10,55 +10,81 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 import './style.scss';
 import ModifyTicket from './ModifyTicket';
+import ArchiveTicket from './ArchiveTicket';
+import axios from 'axios';
 
-const useStyles = makeStyles({
-    table: {
-        minWidth: 500,
-    },
-});
+class ListOfTickets extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            
+        };
 
-function createData(ticket, sold, available) {
-    return { ticket, sold, available };
-}
+        this.archiveTicket = this.archiveTicket.bind(this);
+        this.createData = this.createData.bind(this);
+        // this.rows = this.rows.bind(this);
+    }
 
-const rows = [
-    createData('Ticket 1', 0, 100),
-    createData('Ticket 2', 0, 50),
-    createData('Ticket 3', 0, 600),
-];
+    createData(ticket, sold, available) {
+        return { ticket, sold, available };
+    }
+    componentWillMount() {
+        axios.get('http://localhost:8000/api/tickets').then((response) => {
+            this.setState({
+                tickets: response.data
+            })
+        });
+    }
+    componentDidUpdate() {
+        axios.get('http://localhost:8000/api/tickets').then((response) => {
+            this.setState({
+                tickets: response.data
+            })
+        });
+    }
+    archiveTicket(ticket) {
+        const url = 'http://localhost:8000/api/archivedtickets';
+        return axios.post(url, ticket)
+        .then(response => console.log(response))
+    }
 
-export default function ListOfTickets() {
-    const classes = useStyles();
+    handleEdit(ticket) {
+        debugger;
+    }
+    render() {
 
-    return (
-        <TableContainer component={Paper}>
-            <Table className={classes.table} aria-label="simple table">
-                <TableHead>
-                    <TableRow>
-                        <TableCell>Ticket</TableCell>
-                        <TableCell align="right">Sold</TableCell>
-                        <TableCell align="right">Available</TableCell>
-                        <TableCell align="right">Action</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row) => (
-                        <TableRow key={row.name}>
-                            <TableCell component="th" scope="row">
-                                {row.ticket}
-                            </TableCell>
-                            <TableCell align="right">{row.sold}</TableCell>
-                            <TableCell align="right">{row.available}</TableCell>
-                            <TableCell align="right" padding='default'>
-                                <ModifyTicket variant="contained"/>
-                                <Button variant="outlined" color="secondary">
-                                    Archive
-                                </Button>
-                            </TableCell>
+
+        return (
+
+            <TableContainer component={Paper}>
+                <Table aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Ticket</TableCell>
+                            {/* <TableCell align="right">Sold</TableCell> */}
+                            {/* <TableCell align="right">Available</TableCell> */}
+                            <TableCell align="right">Action</TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
-    );
+                    </TableHead>
+                    <TableBody>
+                        {this.state.tickets.map((ticket) => (
+                            <TableRow key={ticket.ticketname}>
+                                <TableCell component="th" scope="row">
+                                    {ticket.ticketname}
+                                </TableCell>
+                                {/* <TableCell align="right">{row.sold}</TableCell>
+                            <TableCell align="right">{row.available}</TableCell> */}
+                                <TableCell align="right" padding='default'>
+                                    <ModifyTicket variant="contained" ticketToEdit={ticket} />
+                                    <ArchiveTicket variant="contained" ticketToArchive={ticket} />
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+
+        );
+    }
 }
+export default ListOfTickets;

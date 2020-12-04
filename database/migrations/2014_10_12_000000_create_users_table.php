@@ -18,7 +18,7 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password')->nullable();
-            $table->foreignId('event_id')->nullable()->references('id')->on('users');
+            $table->foreignId('event_id')->nullable()->references('id')->on('events');
             $table->rememberToken();
             $table->timestamps();
         });
