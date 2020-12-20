@@ -1,4 +1,4 @@
-# Laravel-React SPA
+# Laravel-React Event Management System
 
 Starter Boilerplate SPA made with Laravel and React.
 
@@ -7,11 +7,17 @@ Starter Boilerplate SPA made with Laravel and React.
 - Laravel 7, React, React Router
 - React Hook, React Context for state management
 - Authentication with JWT
+- Event Creation and Update
+- Stats
+- Create / Modify / Delete Tickets
+- Website Creator
+- Payment with stripe
 - Login, register, reset password
 - Flexible Page Layout
 - Flexible, Protected Routing
 - Tailwind CSS
 - ESlint
+- React Material UI
 
 ## Installation
 
