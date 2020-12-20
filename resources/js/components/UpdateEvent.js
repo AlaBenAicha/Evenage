@@ -1,18 +1,14 @@
 import React, { Component } from 'react'
 import Button from '@material-ui/core/Button';
-import axios, { post, put } from 'axios';
+import axios, { put } from 'axios';
 import {
   MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
 } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import GoogleMaps from './GoogleMaps';
-import Date from './Date';
-import BasicTextField from './TextField';
+import moment from 'moment';
 
 export default class UpdateEvent extends Component {
 
@@ -80,7 +76,7 @@ export default class UpdateEvent extends Component {
               <TextField
                 id="date"
                 name="eventstartdate"
-                value={this.state.eventstartdate}
+                value={moment(this.state.event.eventstartdate).format('YYYY-MM-DD')}
                 label="Start date"
                 type="date"
                 onChange={this.handleChange}
@@ -93,7 +89,7 @@ export default class UpdateEvent extends Component {
               <TextField
                 id="date"
                 name="eventenddate"
-                value={this.state.eventenddate}
+                value={moment(this.state.event.eventenddate).format('YYYY-MM-DD')}
                 label="End date"
                 type="date"
                 onChange={this.handleChange}
@@ -111,7 +107,7 @@ export default class UpdateEvent extends Component {
                 name="eventstarttime"
                 label="Start time"
                 type="time"
-                defaultValue="07:30"
+                value={moment(this.state.event.eventstarttime).format('HH:mm')}
                 onChange={this.handleChange}
                 InputLabelProps={{
                   shrink: true,
@@ -125,7 +121,7 @@ export default class UpdateEvent extends Component {
                 name="eventendtime"
                 label="End time"
                 type="time"
-                defaultValue="07:30"
+                value={moment(this.state.event.eventendtime).format('HH:mm')}
                 onChange={this.handleChange}
                 InputLabelProps={{
                   shrink: true,

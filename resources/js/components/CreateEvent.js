@@ -31,6 +31,7 @@ export default class CreateEvent extends Component {
           eventcreated: false,
           events: [],
           event_id: '',
+          coverimage: '',
         };
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -55,7 +56,8 @@ export default class CreateEvent extends Component {
           eventstartdate: this.state.eventstartdate,
           eventenddate: this.state.eventenddate,
           eventstarttime: this.state.eventstarttime,
-          eventendtime: this.state.eventendtime
+          eventendtime: this.state.eventendtime,
+          coverimage: 'coverimage',
         });
       }
       createEvent(values) {

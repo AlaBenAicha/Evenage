@@ -1,24 +1,9 @@
-import React, { useState } from 'react';
-import TextField from '@material-ui/core/TextField';
-import GoogleMaps from './GoogleMaps';
-import Date from './Date';
-import BasicTextField from './TextField';
+import React from 'react';
 import CreateEvent from './CreateEvent';
 import UpdateEvent from './UpdateEvent';
-import Button from '@material-ui/core/Button';
-import axios, { post, put } from 'axios';
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker,
-} from '@material-ui/pickers';
-import DateFnsUtils from '@date-io/date-fns';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { withStyles } from "@material-ui/core/styles";
-import { useTheme } from "@material-ui/styles"
+import axios from 'axios';
+
 import './style.scss';
-import { useAuth } from '../context/auth';
 
 class Details extends React.Component {
 
@@ -30,36 +15,26 @@ class Details extends React.Component {
       currentevent: '',
       events: [],
       eventcreated: false,
-      form: '',
+      form: <CreateEvent currentuser={this.props.currentuser}/>,
     };
     this.getEvent = this.getEvent.bind(this);
   }
 
   getEvent(events){
+    this.setState({
+      form : <CreateEvent currentuser={this.state.user}/>
+    })
     events.map((event) => {
       if (event.user_id == this.state.user_id) {
-        
+        return(
         this.setState({
           currentevent : event,
           eventcreated : true,
           form: <UpdateEvent currentuser={this.state.user} currentevent={event}/>,
-        })
-      } else {
-        this.setState({
-        form : <CreateEvent currentuser={this.state.user}/>
-      })
-      }
-      console.log(event.user_id);
-      console.log(this.state.user_id);
-      console.log(this.state.eventcreated);
-      // if (this.state.eventcreated = false) {
-      //   // this.setState({form : <UpdateEvent currentuser={this.state.user} currentevent={this.state.currentevent}/>});
-      //   // } else {
-      //   this.setState({
-      //   form : <CreateEvent currentuser={this.state.user}/>
-      //   });
           
-      //   }
+        })
+        );
+      } 
     })
   }
 
@@ -68,7 +43,6 @@ class Details extends React.Component {
             this.setState({
               events: response.data
             })
-            console.log(this.state.eventcreated);
             this.getEvent(this.state.events);
             
             

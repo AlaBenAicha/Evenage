@@ -44,10 +44,10 @@ class ArchivedTicketController extends Controller
         $archivedticket->ticketname = $request->get("ticketname");
         $archivedticket->ticketquantity = $request->get("ticketquantity");
         $archivedticket->ticketprice = $request->get("ticketprice");
-        // $archivedticket->ticketstartdate = $request->get("ticketstartdate");
-        // $archivedticket->ticketenddate = $request->get("ticketenddate");
-        // $archivedticket->ticketstarttime = $request->get("ticketstarttime");
-        // $archivedticket->ticketendtime = $request->get("ticketendtime");
+        $archivedticket->ticketstartdate = $request->get("ticketstartdate");
+        $archivedticket->ticketenddate = $request->get("ticketenddate");
+        $archivedticket->ticketstarttime = $request->get("ticketstarttime");
+        $archivedticket->ticketendtime = $request->get("ticketendtime");
         $archivedticket->ticketimage = $request->get("ticketimage");
         $archivedticket -> save();
         return response()->json($archivedticket);

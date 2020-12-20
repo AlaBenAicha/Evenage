@@ -37,7 +37,7 @@ export default function Stats() {
           Website visitors
         </Typography>
         <Typography variant="h5"> 
-        1
+        0
         </Typography>
         
       </CardContent>

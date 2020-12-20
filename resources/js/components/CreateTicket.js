@@ -8,11 +8,19 @@ import BasicTextField from './TextField';
 import './style.scss';
 import TicketImageUpload from './TicketImageUpload';
 import axios, { post } from 'axios';
+import Skeleton from '@material-ui/lab/Skeleton';
+import Box from '@material-ui/core/Box';
+
 class CreateTicket extends React.Component {
 
   constructor(props) {
     super(props);
     this.state = {
+      user: this.props.currentuser,
+      user_id: this.props.currentuser.id,
+      currentevent: '',
+      events: [],
+      event_id: '',
       ticketname: '',
       ticketquantity: '',
       ticketprice: '',
@@ -20,22 +28,45 @@ class CreateTicket extends React.Component {
       ticketstartdate: '2020-09-30',
       ticketenddate: '2020-09-30',
       ticketstarttime: '07:30',
-      ticketendtime: '07:30'
+      ticketendtime: '07:30',
+      ticketimageuploaded: false,
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.createTicket = this.createTicket.bind(this);
+    this.onChange = this.onChange.bind(this);
+    this.getEvent = this.getEvent.bind(this);
   }
+  componentDidMount(){
+    axios.get('http://localhost:8000/api/events').then((response) => {
+            this.setState({
+              events: response.data
+            })
+            this.getEvent(this.state.events);
+            
+            
+  })
+}
+getEvent(events){
+  events.map((event) => {
+    if (event.user_id == this.state.user_id) {
+      
+      this.setState({
+        currentevent : event,
+        eventcreated : true,
+        
+      });
+    } })}
+
   handleChange(e) {
     this.setState({
-      // [e.target.name]: e.target.value
       [e.target.name]: e.target.value,
     });
   }
   handleSubmit(e) {
-    // alert('Values were submitted: ' + this.state);
     e.preventDefault();
     this.createTicket({
+      event_id: this.state.currentevent.id,
       ticketname: this.state.ticketname,
       ticketquantity: this.state.ticketquantity,
       ticketprice: this.state.ticketprice,
@@ -43,7 +74,7 @@ class CreateTicket extends React.Component {
       ticketstartdate: this.state.ticketstartdate,
       ticketenddate: this.state.ticketenddate,
       ticketstarttime: this.state.ticketstarttime,
-      ticketendtime: this.state.ticketendtime
+      ticketendtime: this.state.ticketendtime,
     });
   }
   createTicket(values) {
@@ -51,12 +82,36 @@ class CreateTicket extends React.Component {
     const url = 'http://localhost:8000/api/tickets';
     return post(url, values)
       .then(response => console.log(response))
-    // .then(response => this.setState({eventname:response.data}))
+  }
+  onChange(e) {
+  
+    let files = e.target.files || e.dataTransfer.files;
+    if (!files.length)
+      return;
+      this.createImage(files[0]);
+      this.setState({ ticketimageuploaded: true });
+     
+    
+  }
+  createImage(file) {
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      this.setState({
+        ticketimage: e.target.result
+      })
+    };
+    reader.readAsDataURL(file);
   }
 
-
   render() {
+    const ticketimageuploaded = this.state.ticketimageuploaded;
+    let coverimage;
 
+    if (ticketimageuploaded) {
+      coverimage = <img style={{ width: 800, height: 200 }} src={this.state.ticketimage} />;
+    } else {
+      coverimage = <Skeleton variant="rect" width={800} height={200} />;
+    }
     return (
 
       <form onSubmit={this.handleSubmit} >
@@ -104,7 +159,9 @@ class CreateTicket extends React.Component {
           </Grid>
 
           <Grid item xs={12}>
-            <TicketImageUpload name="ticketimage" value={this.state.ticketimage} onChange={this.handleChange}/>
+          
+           
+             <TicketImageUpload name="ticketimage" image={this.state.ticketimage} onChange={this.handleChange}/> 
           </Grid>
           <Grid item xs={4}>
             <Button variant="contained" color="primary" type="submit">

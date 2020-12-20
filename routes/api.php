@@ -24,7 +24,22 @@ Route::get('events', function() {
     // If the Content-Type and Accept headers are set to 'application/json', // this will return a JSON structure. This will be cleaned up later.
     return Event::all();
 });
+Route::get('events/{id}', function($id) {
+    return Event::find($id);
+});
+Route::post('events/{id}', function(Request $request, $id) {
+    $event = Event::findOrFail($id);
+    $event->update($request->all());
+
+    return $event;
+});
 Route::post('events', 'EventController@store');
+Route::put('events/{id}', function(Request $request, $id) {
+    $event = Event::findOrFail($id);
+    $event->update($request->all());
+
+    return $event;
+});
 Route::resource('eventcoverimages','EventcoverimagesController');
 Route::resource('eventlogos','EventlogosController');
 Route::get('eventpartners', function() {

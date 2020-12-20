@@ -6,15 +6,15 @@ export default class ArchiveTicket extends Component {
     constructor(props) {
         super(props);
         this.state = {
+          event_id: this.props.ticketToArchive.event_id,
           id: this.props.ticketToArchive.id,
+          ticket: {
           ticketname: this.props.ticketToArchive.ticketname,
           ticketquantity: this.props.ticketToArchive.ticketquantity,
           ticketprice: this.props.ticketToArchive.ticketprice,
           ticketimage: this.props.ticketToArchive.ticketimage,
-          ticketstartdate: this.props.ticketToArchive.ticketstartdate,
-          ticketenddate: this.props.ticketToArchive.ticketenddate,
-          ticketstarttime: this.props.ticketToArchive.ticketstarttime,
-          ticketendtime: this.props.ticketToArchive.ticketendtime,
+        }
+        
         };
     
         this.archiveTicket = this.archiveTicket.bind(this);
@@ -22,15 +22,15 @@ export default class ArchiveTicket extends Component {
       }
 
       archiveTicket() {
-          let ticket = this.props.ticketToArchive;
+          let ticket = this.state.ticket;
         const url = 'http://localhost:8000/api/archivedtickets';
         return axios.post(url, ticket).then(response => { 
-        console.log(response);
-        this.deleteOldTicket(ticket.id);
+        this.deleteOldTicket(response.data.id);
       });
         
     }
     deleteOldTicket(id) {
+      console.log(id);
       axios.delete('http://localhost:8000/api/tickets/' + id).then((response)=> {
       console.log('old ticket deleted');
       });

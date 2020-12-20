@@ -32,53 +32,13 @@ function AuthNav () {
             </li>
           </ul>
 
-          {/* <div
-            onClick={toggleMobileNav}
-            id="sidebar-open"
-            className='z-50 flex px-6 items-center lg:hidden text-gray-700'>
-
-            <span className={`svg-full ${!hideMobileNav ? 'mobile-nav-show' : ''}`}>
-                MENU &nbsp;
-              <svg className="fill-current" role="button" xmlns="http://www.w3.org/2000/svg" width="35" height="12" viewBox="0 0 35 12">
-                <rect width="35" height="2"></rect>
-                <rect y="5" width="24" height="2"></rect>
-                <rect y="10" width="14" height="2"></rect>
-              </svg>
-            </span>
-          </div> */}
+         
         </div>
 
          <div
           className={`right lg:flex pt-8 lg:pt-0 right fixed lg:relative bg-white w-full lg:w-auto h-screen lg:h-auto ${hideMobileNav ? 'mobile-hidden' : ''}`}>
           <ul className="mt-8 py-8 lg:py-0 lg:mt-0 list-reset flex items-center flex-col lg:flex-row">
-            {/* <li
-              onClick={closeMobileNav}
-              className="px-4 py-3 lg:py-0">
-              <NavLink
-                to='/home'
-                className="capitalize text-2xl font-bold lg:text-sm lg:font-light text-gray-700 underline lg:no-underline">
-                  Home
-              </NavLink>
-            </li> */}
-            {/* <li
-              onClick={closeMobileNav}
-              className="px-4 py-3 lg:py-0">
-              <NavLink
-                to='/home'
-                className="capitalize text-2xl font-bold lg:text-sm lg:font-light text-gray-700 underline lg:no-underline">
-                  Messages
-              </NavLink>
-            </li> */}
-
-            {/* <li
-              onClick={closeMobileNav}
-              className="px-4 py-3 lg:py-0">
-              <NavLink
-                to='/home'
-                className="capitalize text-2xl font-bold lg:text-sm lg:font-light text-gray-700 underline lg:no-underline">
-                  Notifications
-              </NavLink>
-            </li> */}
+            
 
             <li
               onClick={closeMobileNav}

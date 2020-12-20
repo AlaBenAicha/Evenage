@@ -50,23 +50,10 @@ class EventController extends Controller
          $eventObj->eventenddate = $request->get('eventenddate');
          $eventObj->eventstarttime = $request->get('eventstarttime');
          $eventObj->eventendtime = $request->get('eventendtime');
+         $eventObj->coverimage = $request->get('coverimage');
+         $eventObj->logoimage = $request->get('logoimage');
          $eventObj->user_id = $request->get('user_id');
-        // echo($eventObj);
-        //  $Event->eventname = $event->eventname;
-        // $event->eventlocation = $request->eventlocation;
-        // $event->eventstartdate = $request->eventstartdate;
-        // $event->eventenddate = $request->eventenddate;
-        // $event->eventstarttime = $request->eventstarttime;
-        // $event->eventendtime = $request->eventendtime;
-        // $event->eventdescription = $request->eventdescription;
-        // $event->eventcoverimage_id = $request->eventcoverimage_id;
-        // $event->eventlogo_id = $request->eventlogo_id;
-        // $event->eventpartners_id = $request->eventpartners_id;
-        // $event->eventprograms_id = $request->eventprograms_id;
-        // $eventpath = public_path('events/').$eventname;
-        // \Event::make($request->get('event'))->save($eventpath);
-        
-        // $Event ->eventname=$eventname;
+
          $eventObj ->save();
           return response()->json($eventObj);
         }
@@ -83,10 +70,10 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function show(Event $event)
+    public function show($id)
     {
-        $event = UploadImage::findOrFail($id);
-        return response()->json($event);
+        $event = Event::find($id);
+        return $event;
     }
 
     /**
@@ -107,9 +94,22 @@ class EventController extends Controller
      * @param  \App\Event  $event
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Event $event)
+    public function update(Request $request, $id)
     {
-        //
+        $event = Event::find($id);
+
+        $event->id = $request->get('id');
+        $event->event_id = $request->get("event_id");
+        $event->eventname = $request->get("eventname");
+        $event->eventlocation = $request->get("eventlocation");
+        $event->eventstartdate = $request->get("eventstartdate");
+        $event->eventenddate = $request->get("eventenddate");
+        $event->eventstarttime = $request->get("eventstarttime");
+        $event->eventendtime = $request->get("eventendtime");
+        $event->eventdescription = $request->get("eventdescription");
+        $event->coverimage = $request->get("coverimage");
+        $event->logoimage = $request->get("logoimage");
+        $event -> save();
     }
 
     /**

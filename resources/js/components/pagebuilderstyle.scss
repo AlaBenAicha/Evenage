@@ -1,0 +1,70 @@
+
+
+.pagebuildercontainer {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+.images {
+    margin-top: 40px; 
+}
+.uploadcoverbutton {
+    margin-top: 40px;
+    margin-left: 80px;
+    z-index: 10;
+    position: absolute;
+}
+.coverimagestyle {
+    margin-left: 50px;
+    // padding-left: 50px;
+}
+.logouploadbutton {
+    // margin-top: 40px;
+    margin-left: 200px;
+    display: flex;
+    flex-direction: row;
+    position: absolute;
+    // justify-content: flex-start;  
+}
+.logoimagestyle{
+    margin-left: 120px;
+    margin-top: 40px; 
+}
+.topbuttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 5px; 
+}
+.textsection {
+    margin-left: 120px;
+    display: flex;
+    flex-direction: row;
+    margin-top: 40px; 
+    justify-content: space-between;
+    align-items: flex-start;
+}
+.descriptionsection{
+    margin-left: 120px;
+    margin-top: 40px;
+}
+.ticketssection {
+    margin-left: 120px;
+    margin-top: 40px; 
+}
+.partnerssection {
+    margin-top: 40px;
+    margin-left: 80px;
+    
+}
+
+.programsection {
+    margin-top: 40px;
+    margin-left: 80px;
+    
+}
+.bottomofpage {
+    margin-top: 100px;
+    margin-left: 350px;
+    
+}

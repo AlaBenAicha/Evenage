@@ -8,7 +8,7 @@ export default class CoverImageUpload extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      image: '',
+      image: this.props.image,
       ticketimageuploaded: false
     }
     this.onFormSubmit = this.onFormSubmit.bind(this)
@@ -23,9 +23,7 @@ export default class CoverImageUpload extends Component {
     this.UploadImage(this.state.image);
   }
   onChange(e) {
-    // this.setState({
-    //    image: e.target.result,
-    //   });
+   
     let files = e.target.files || e.dataTransfer.files;
     if (!files.length)
       return;
@@ -47,12 +45,6 @@ export default class CoverImageUpload extends Component {
     return post(url, formData)
       .then(response => this.setState({ image: response.data }))
   }
-  // Media(props) {
-  //   const   { loading = false } = props;
-
-  //   return (
-  //     <Grid container wrap="nowrap">
-  //     {(imageuploaded ? <img style={{ width: 800, height: 200 }}  src={this.state.image} />
   render() {
     const ticketimageuploaded = this.state.ticketimageuploaded;
     let coverimage;
@@ -62,13 +54,6 @@ export default class CoverImageUpload extends Component {
     } else {
       coverimage = <Skeleton variant="rect" width={800} height={200} />;
     }
-    // const eventlogouploaded ='false';
-    // let eventlogo;
-    // if (eventlogouploaded) {
-    //   coverimage=<img  src={this.state.image} />;
-    //   } else {
-    //     coverimage=<Skeleton variant="rect" />;
-    //   } 
     return (
 
       <form onSubmit={this.onFormSubmit}>
@@ -88,27 +73,8 @@ export default class CoverImageUpload extends Component {
         <Box width={800} height={200} marginRight={0.5} my={5}>
           {coverimage}
         </Box>
-        {/* <img src={this.state.image}/> */}
       </form>
     )
   }
 }
 
-//   const [pictures, setPictures] = useState([]);
-
-//   const onDrop = picture => {
-//     setPictures([...pictures, picture]);
-//   };
-//   return (
-//     <ImageUploader
-//       {...props}
-//       withIcon={true}
-//       onChange={onDrop}
-//       imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-//       maxFileSize={5242880}
-//       withPreview='True'
-//     />
-//   );
-//  };
-
-// export default ImportImage;

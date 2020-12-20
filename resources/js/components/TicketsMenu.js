@@ -8,10 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import CreateTicket from './CreateTicket';
 import ListOfTickets from './ListOfTickets';
-import Grid from '@material-ui/core/Grid';
 import ArchivedTickets from './ArchivedTickets';
-import { Container } from '@material-ui/core';
-import { Paper } from '@material-ui/core';
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -54,10 +51,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function TicketsMenu() {
+export default function TicketsMenu(props) {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
+  const  [currentuser, setCurrentUser] = React.useState(props.currentuser);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -72,10 +69,10 @@ export default function TicketsMenu() {
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0}>
-        <ListOfTickets />
+        <ListOfTickets currentuser={currentuser}/>
       </TabPanel>
-      <TabPanel value={value} index={1}>
-        <CreateTicket />
+      <TabPanel value={value} index={1} >
+        <CreateTicket currentuser={currentuser}/>
       </TabPanel>
       <TabPanel value={value} index={2}>
         <ArchivedTickets />

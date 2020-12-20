@@ -39,7 +39,7 @@ const PaperComponent = (props) => {
   );
 }
 export default function Partners(props) {
-  const { title, children } = props;
+  const { currentevent, setCurrentevent } = React.useState(props.event);
   const [openPopup, setOpenPopup] = React.useState(false);
 
   const classes = useStyles();
@@ -54,9 +54,7 @@ export default function Partners(props) {
   }
 
   const onChange = (e) => {
-    // this.setState({
-    //    image: e.target.result,
-    //   });
+   
     let files = e.target.files || e.dataTransfer.files;
     if (!files.length)
       return;
@@ -83,7 +81,7 @@ export default function Partners(props) {
               Add partner
       </DialogTitle>
             <DialogContent dividers>
-              <AddPartnerForm />
+              <AddPartnerForm event={currentevent}/>
             </DialogContent>
             <DialogActions>
               <Button autoFocus onClick={handleClose} color="primary">
@@ -99,50 +97,4 @@ export default function Partners(props) {
   )
 }
 
-  // Media(props) {
-  //   const   { loading = false } = props;
-
-  //   return (
-  //     <Grid container wrap="nowrap">
-  //     {(imageuploaded ? <img style={{ width: 800, height: 200 }}  src={this.state.image} />
-    // {this.state.partners.map() => (
-    //   if (partnerlogouploaded) {
-    //   <Grid item xs={4}>
-    //     partners = <img style={{ width: 80, height: 80 }} src={this.state.image} />;
-
-    //     </Grid>
-
-
-    // } else {
-    //   partners = <Skeleton variant="rect" width={80} height={80} />;
-    // }
-    // )}
-
-    // const eventlogouploaded ='false';
-    // let eventlogo;
-    // if (eventlogouploaded) {
-    //   coverimage=<img  src={this.state.image} />;
-    //   } else {
-    //     coverimage=<Skeleton variant="rect" />;
-    //   } 
-
-
-
-//   const [pictures, setPictures] = useState([]);
-
-//   const onDrop = picture => {
-//     setPictures([...pictures, picture]);
-//   };
-//   return (
-//     <ImageUploader
-//       {...props}
-//       withIcon={true}
-//       onChange={onDrop}
-//       imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-//       maxFileSize={5242880}
-//       withPreview='True'
-//     />
-//   );
-//  };
-
-// export default ImportImage;
+ 

@@ -23,9 +23,6 @@ export default class TicketImageUpload extends Component {
     this.UploadImage(this.state.image);
   }
   onChange(e) {
-    // this.setState({
-    //    image: e.target.result,
-    //   });
     let files = e.target.files || e.dataTransfer.files;
     if (!files.length)
       return;
@@ -47,12 +44,6 @@ export default class TicketImageUpload extends Component {
     return post(url, formData)
       .then(response => this.setState({ image: response.data }))
   }
-  // Media(props) {
-  //   const   { loading = false } = props;
-
-  //   return (
-  //     <Grid container wrap="nowrap">
-  //     {(imageuploaded ? <img style={{ width: 800, height: 200 }}  src={this.state.image} />
   render() {
     const coverimageuploaded = this.state.coverimageuploaded;
     let coverimage;
@@ -62,13 +53,6 @@ export default class TicketImageUpload extends Component {
     } else {
       coverimage = <Skeleton variant="rect" width={800} height={200} />;
     }
-    // const eventlogouploaded ='false';
-    // let eventlogo;
-    // if (eventlogouploaded) {
-    //   coverimage=<img  src={this.state.image} />;
-    //   } else {
-    //     coverimage=<Skeleton variant="rect" />;
-    //   } 
     return (
 
       <form onSubmit={this.onFormSubmit}>
@@ -98,27 +82,8 @@ export default class TicketImageUpload extends Component {
           <Box width={800} height={200} marginRight={0.5} marginLeft={20} my={5} zIndex="modal">
             {coverimage}
           </Box>
-        {/* <img src={this.state.image}/> */}
       </form>
     )
   }
 }
 
-//   const [pictures, setPictures] = useState([]);
-
-//   const onDrop = picture => {
-//     setPictures([...pictures, picture]);
-//   };
-//   return (
-//     <ImageUploader
-//       {...props}
-//       withIcon={true}
-//       onChange={onDrop}
-//       imgExtension={[".jpg", ".gif", ".png", ".gif"]}
-//       maxFileSize={5242880}
-//       withPreview='True'
-//     />
-//   );
-//  };
-
-// export default ImportImage;

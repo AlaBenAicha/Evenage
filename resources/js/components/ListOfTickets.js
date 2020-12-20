@@ -17,25 +17,17 @@ class ListOfTickets extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+            tickets:[],
         };
 
         this.archiveTicket = this.archiveTicket.bind(this);
         this.createData = this.createData.bind(this);
-        // this.rows = this.rows.bind(this);
     }
 
     createData(ticket, sold, available) {
         return { ticket, sold, available };
     }
-    componentWillMount() {
-        axios.get('http://localhost:8000/api/tickets').then((response) => {
-            this.setState({
-                tickets: response.data
-            })
-        });
-    }
-    componentDidUpdate() {
+    componentDidMount() {
         axios.get('http://localhost:8000/api/tickets').then((response) => {
             this.setState({
                 tickets: response.data
@@ -56,26 +48,22 @@ class ListOfTickets extends React.Component {
 
         return (
 
-            <TableContainer component={Paper}>
-                <Table aria-label="simple table">
-                    <TableHead>
-                        <TableRow>
-                            <TableCell>Ticket</TableCell>
-                            {/* <TableCell align="right">Sold</TableCell> */}
-                            {/* <TableCell align="right">Available</TableCell> */}
-                            <TableCell align="right">Action</TableCell>
+            <TableContainer component={'span'}>
+                <Table aria-label="simple table" component={'span'}>
+                    <TableHead component={'span'}>
+                        <TableRow component={'span'}>
+                            <TableCell component={'span'}>Ticket</TableCell>
+                            <TableCell component={'span'} align="right">Action</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody component={'span'}>
                         {this.state.tickets.map((ticket) => (
-                            <TableRow key={ticket.ticketname}>
-                                <TableCell component="th" scope="row">
+                            <TableRow key={ticket.ticketname} component={'span'}>
+                                <TableCell component={'span'} scope="row">
                                     {ticket.ticketname}
                                 </TableCell>
-                                {/* <TableCell align="right">{row.sold}</TableCell>
-                            <TableCell align="right">{row.available}</TableCell> */}
-                                <TableCell align="right" padding='default'>
-                                    <ModifyTicket variant="contained" ticketToEdit={ticket} />
+                                <TableCell align="right" padding='default' component={'span'}>
+                                    <ModifyTicket variant="contained" ticketToEdit={ticket} component={'span'}/>
                                     <ArchiveTicket variant="contained" ticketToArchive={ticket} />
                                 </TableCell>
                             </TableRow>

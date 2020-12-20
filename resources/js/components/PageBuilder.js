@@ -11,6 +11,13 @@ import Partners from './Partners';
 import AddPartnerForm from './AddPartnerForm';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
 import Avatar from '@material-ui/core/Avatar';
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import DeleteIcon from '@material-ui/icons/Delete';
 import {
   BrowserRouter as Router,
   Route,
@@ -20,15 +27,51 @@ import {
 import EventWebsitePage from '../pages/EventWebsitePage';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../context/auth';
+import { withRouter } from 'react-router-dom';
+import './pagebuilderstyle.scss';
+import { IconButton } from '@material-ui/core';
 
-function PageBuilder() {
-  const [partners, setPartners] = React.useState([]);
-  const history = useHistory();
-  useEffect (() => {
 
+class PageBuilder extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: this.props.currentuser,
+      user_id: this.props.currentuser.id,
+      currentevent: '',
+      events: [],
+      partners: [],
+      tickets: [],
+      event_id: '',
+      coverimage: '',
+      logoimage: '',
+      eventcreated: false,
+      coverimageuploaded: false,
+      logoimageuploaded: false,
+    };
+    // this.handleChange = this.handleChange.bind(this);
+    // this.handleSubmit = this.handleSubmit.bind(this);
+    this.createCoverImage = this.createCoverImage.bind(this);
+    this.createLogoImage = this.createLogoImage.bind(this);
+    this.updateEvent = this.updateEvent.bind(this);
+    this.onCoverImageChange = this.onCoverImageChange.bind(this);
+    this.onLogoImageChange = this.onLogoImageChange.bind(this);
+    this.getEvent = this.getEvent.bind(this);
+    this.redirectToWebsitePage = this.redirectToWebsitePage.bind(this);
+  }
+
+  componentDidMount() {
+    axios.get('http://localhost:8000/api/events').then((response) => {
+      this.setState({
+        events: response.data,
+      })
+      this.getEvent(this.state.events);
+    });
     axios.get('http://localhost:8000/api/eventpartners').then((response) => {
 
-      setPartners({
+      this.setState({
 
         partners: response.data
 
@@ -36,202 +79,310 @@ function PageBuilder() {
 
     });
 
-  })
-  return (
-    <div>
-      <Box
-        position="absolute"
-        top={70}
-        left={1100}
-        zIndex="tooltip"
-      >
-      <Button variant="contained" color="primary" component="span" >
-        Save
-        </Button>
-        </Box>
 
-        <Box
-        position="absolute"
-        top={70}
-        left={1200}
-        zIndex="tooltip"
-      >
-      
-      <Button variant="contained" color="primary" component="span" onClick={()=> history.push("/eventwebsite")}>
-        Publish
-        </Button>
-        
-        </Box>
-      <Grid container
-        direction="row"
-        justify="center"
-        alignItems="flex-start"
-      >
-        <CoverImageUpload />
-      </Grid>
-   
-      <EventLogoUpload />
-      
+  }
+  getEvent(events) {
+    events.map((event) => {
+      if (event.user_id == this.state.user_id) {
+        this.setState({
+          currentevent: event,
+          eventcreated: true,
+        });
+        if (this.state.currentevent !== null) {
+          this.setState({
+            coverimage: this.state.currentevent.coverimage,
+            coverimageuploaded: true,
+            logoimage: this.state.currentevent.logoimage,
+            logoimageuploaded: true,
+          });
+        }
+        axios.get('http://localhost:8000/api/tickets').then((response) => {
+          this.setState({
+            tickets: response.data,
+          })
 
-        <Box
-        position="absolute"
-        top={500}
-        left={350}
-        zIndex="tooltip"
-      >
-      <Typography variant="h4">
-        Event 1
-        </Typography>
-        </Box>
+        })
+      }
+    })
+  };
+  onCoverImageChange(e) {
+    // this.setState({
+    //    image: e.target.result,
+    //   });
+    let files = e.target.files || e.dataTransfer.files;
+    if (!files.length)
+      return;
+    this.createCoverImage(files[0]);
+    this.setState({ coverimageuploaded: true });
+    // console.log(this.state.image);
 
-        <Box
-        position="absolute"
-        top={502}
-        left={900}
-        zIndex="tooltip"
-      >
-        <LocationOnIcon  />
-        </Box>
-        <Box
-        position="absolute"
-        top={500}
-        left={930}
-        zIndex="tooltip"
-      >
-      <Typography variant="h6">
-        Tunisia
-        </Typography>
-        </Box>
+  }
+  createCoverImage(file) {
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      this.setState({
+        coverimage: e.target.result,
+      })
+    };
+    reader.readAsDataURL(file);
+  }
 
-        <Box
-        position="absolute"
-        top={550}
-        left={350}
-        right={200}
-        zIndex="tooltip"
-      >
-      <Typography variant="h7">
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-      Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris 
-      nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in 
-      reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-      Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt 
-      mollit anim id est laborum.
-        </Typography>
-        </Box>
+  onLogoImageChange(e) {
+    let files = e.target.files || e.dataTransfer.files;
+    if (!files.length)
+      return;
+    this.createLogoImage(files[0]);
+    this.setState({ logoimageuploaded: true });
+    // console.log(this.state.image);
 
+  }
+  createLogoImage(file) {
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      this.setState({
+        logoimage: e.target.result,
+      })
+    };
+    reader.readAsDataURL(file);
+  }
+  redirectToWebsitePage() {
+    const { history } = this.props;
+    if (history) history.push('/eventwebsite');
+  }
 
-        <Box
-        position="absolute"
-        top={780}
-        left={1000}
-        zIndex="tooltip"
-      >
-      <Button variant="contained" color="primary" component="span" disabled>
-        Buy ticket
-        </Button>
-        </Box>
-        <Box width={800} height={200} marginRight={0.5} position="absolute"
-        top={700}
-        left={350}
-        zIndex="modal">
-        <Skeleton variant="rect" width={800} height={200} />
-          </Box>
+  updateEvent() {
+    let id = this.state.currentevent.id;
+    axios.post('http://localhost:8000/api/events/' + id, {
+      coverimage: this.state.coverimage,
+      logoimage: this.state.logoimage,
+    }).then((response) => {
+      console.log(response);
+    })
+  };
 
-          <Box
-        position="absolute"
-        top={1000}
-        left={1000}
-        zIndex="tooltip"
-      >
-      <Button variant="contained" color="primary" component="span" disabled>
-        Buy ticket
-        </Button>
-        </Box>
-          <Box width={800} height={200} marginRight={0.5} position="absolute"
-        top={920}
-        left={350}
-        zIndex="modal">
-        <Skeleton variant="rect" width={800} height={200} />
-          </Box>
+  render() {
+    const coverimageuploaded = this.state.coverimageuploaded;
+    const logoimageuploaded = this.state.logoimageuploaded;
+    let eventcreated = this.state.eventcreated;
+    let coverimage;
+    let logoimage;
+    let eventname;
+    let eventdesc;
+    let eventloc;
+    if (eventcreated) {
+      eventname = this.state.currentevent.eventname;
+      eventdesc = this.state.currentevent.eventdescription;
+      eventloc = this.state.currentevent.eventlocation;
+    } else {
+      eventname = "Event Title";
+      eventdesc = "Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua";
+      eventloc = "Tunisia";
+    }
 
-          <Box
-        position="absolute"
-        top={1220}
-        left={1000}
-        zIndex="tooltip"
-      >
-      <Button variant="contained" color="primary" component="span" disabled>
-        Buy ticket
-        </Button>
-        </Box>
-          <Box width={800} height={200} marginRight={0.5} position="absolute"
-        top={1140}
-        left={350}
-        zIndex="modal">
-        <Skeleton variant="rect" width={800} height={200} />
-          </Box>
-
-
-        <Box
-        position="absolute"
-        top={1400}
-        left={400}
-        zIndex="modal"
-      >
-      <Typography variant="h5">
-        Partners
-        </Typography>
+    if (coverimageuploaded) {
+      coverimage = <img style={{ width: 800, height: 200 }} src={this.state.coverimage} />;
+    } else {
+      coverimage = <Skeleton variant="rect" width={800} height={200} />;
+    }
+    if (logoimageuploaded) {
+      logoimage = (
+        <Avatar src={this.state.logoimage} style={{ height: '100px', width: '100px' }} />
+      );
+    } else {
+      logoimage = (
         <Skeleton variant="circle">
-        <Avatar style={{ height: '100px', width: '100px' }}/>
+          <Avatar style={{ height: '100px', width: '100px' }} />
         </Skeleton>
-        </Box>
+      )
+    }
+    const { history } = this.props;
+    let user = this.state.user
+    return (
+      <div className='pagebuildercontainer'>
+        <div className='topbuttons'>
+
+          <Button variant="contained" color="primary" component="span" onClick={this.updateEvent}>
+            Save
+        </Button>
+          <Button variant="contained" color="primary" component="span" onClick={this.redirectToWebsitePage}>
+            Publish
+        </Button>
+
+        </div>
+        <div className='images'>
+          <Grid container
+            direction="row"
+            justify="center"
+            alignItems="flex-start"
+          >
+            <input accept="image/*"
+              style={{ display: 'none' }}
+              id="contained-button-cover-image"
+              multiple
+              type="file"
+              diplay="none"
+              onChange={this.onCoverImageChange} />
+            <div className='uploadcoverbutton'>
+              <Box
+
+                zIndex="tooltip"
+              >
+                <label htmlFor="contained-button-cover-image" className="upload-button">
+                  <Button variant="contained" color="primary" component="span" >
+                    Upload Cover Image
+                </Button>
+                </label>
+              </Box>
+            </div>
+            <div className='coverimagestyle'>
+              <Box width={800} height={200} marginRight={0.5} zIndex="modal">
+                {coverimage}
+              </Box>
+            </div>
+          </Grid>
+
+          <div>
+            <div className='logouploadbutton'>
+              <input accept="image/*"
+                style={{ display: 'none' }}
+                id="contained-button-event-logo"
+                multiple
+                type="file"
+                diplay="none"
+                onChange={this.onLogoImageChange} />
+              <label htmlFor="contained-button-event-logo" className="upload-button">
+                <Button type="submit" variant="contained" color="primary" component="span" >
+                  Upload Logo
+              </Button>
+              </label>
+            </div>
+            <div className='logoimagestyle'>
+              {logoimage}
+            </div>
+          </div>
+        </div>
+        <div className='textsection'>
+          <Box
+
+            zIndex="tooltip"
+          >
+            <Typography variant="h4">
+              {eventname}
+            </Typography>
 
 
-        <Box
-        position="absolute"
-        top={1455}
-        left={500}
-        zIndex="modal"
-      >
-      <Partners>
-        <AddPartnerForm />
-      </Partners>
-      {/* {partners} */}
-      </Box>
-      <Box
-        position="absolute"
-        top={1500}
-        left={600}
-        bottom={100}
-        zIndex="modal"
-      >
-      <EventTimeline />
-      </Box>
-      <Box
-        position="absolute"
-        top={1900}
-        left={520}
-        bottom={100}
-        zIndex="modal"
-      >
-        <Typography variant="h6">
-        © 2020 Powered By Evenage.  All rights reserved.
+          </Box>
+
+          <Box
+            zIndex="tooltip"
+            display="flex"
+          >
+            <LocationOnIcon />
+            <Typography variant="h6">
+              {eventloc}
+            </Typography>
+          </Box>
+        </div>
+        <div className='descriptionsection'>
+          <Box
+            zIndex="tooltip"
+          >
+            <Typography variant="h7">
+              {eventdesc}
+            </Typography>
+          </Box>
+        </div>
+
+
+        <div className='ticketssection'>
+          <Box
+            zIndex="modal">
+
+
+            <Table aria-label="simple table" component={'span'}>
+              <TableBody component={'span'}>
+                {this.state.tickets.map((ticket) => (
+                  <TableRow key={ticket.id} component={'span'}>
+                    <TableCell component={'span'} scope="row">
+                      <img style={{ width: 800, height: 200 }} src={ticket.ticketimage} />
+                    </TableCell>
+
+                    <TableCell align="right" padding='default' component={'span'}>
+                      <Button variant="contained" color="primary" component="span" disabled>
+                        Buy ticket
+        </Button>
+                    </TableCell>
+                  </TableRow>
+
+                ))}
+
+
+              </TableBody>
+            </Table>
+
+          </Box>
+        </div>
+
+
+        <div className='partnerssection'>
+          <Box
+
+            zIndex="modal"
+          >
+            <Typography variant="h5">
+              Partners
         </Typography>
-         </Box>
-      {/* <input
-        accept="image/*"
-        style={{ display: 'none' }}
-        id="contained-event-logo-button-file"
-        multiple
-        type="file"
-        diplay="none"
-      />
-      <label htmlFor="contained-event-logo-button-file" className="upload-button">
 
-      </label> */}
-    </div>
-  );
+
+            <Table aria-label="simple table" component={'span'} size='small'>
+              <TableBody component={'span'}>
+                <TableRow component={'span'}>
+                  {this.state.partners.map((partner) => (
+                    <TableCell component={'span'} scope="row">
+                      <Avatar style={{ height: '100px', width: '100px' }} src={partner.partnerlogoimage} />
+                      <IconButton aria-label="delete" size="small">
+                        <DeleteIcon fontSize="small" />
+                      </IconButton>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableBody>
+            </Table>
+
+
+
+          </Box>
+
+
+          <Box
+            zIndex="modal"
+          >
+            <Partners event={this.state.currentevent}>
+              <AddPartnerForm event={this.state.currentevent} />
+            </Partners>
+            {/* {partners} */}
+          </Box>
+        </div>
+
+        <div className='programsection'>
+          <Box
+            zIndex="modal"
+          >
+            <EventTimeline />
+          </Box>
+
+        </div>
+        <div className='bottomofpage'>
+
+
+          <Typography variant="h6">
+            © 2020 Powered By Evenage.  All rights reserved.
+        </Typography>
+
+        </div>
+
+      </div>
+    );
+  }
 }
 export default PageBuilder;

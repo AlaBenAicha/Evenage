@@ -10,6 +10,9 @@ import Grid from '@material-ui/core/Grid';
 import './style.scss';
 import TicketImageUpload from './TicketImageUpload';
 import axios, { post, put } from 'axios';
+import moment from 'moment';
+import Skeleton from '@material-ui/lab/Skeleton';
+import Box from '@material-ui/core/Box';
 
 export default class ModifyTicket extends React.Component { 
 
@@ -25,13 +28,15 @@ export default class ModifyTicket extends React.Component {
       ticketenddate: this.props.ticketToEdit.ticketenddate,
       ticketstarttime: this.props.ticketToEdit.ticketstarttime,
       ticketendtime: this.props.ticketToEdit.ticketendtime,
-      setOpen: false
+      setOpen: false,
+      ticketimageuploaded: false
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleClickOpen = this.handleClickOpen.bind(this);
     this.handleClose = this.handleClose.bind(this);
     this.updateTicket = this.updateTicket.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
 
@@ -42,6 +47,7 @@ let id = this.state.id;
       ticketname: this.state.ticketname,
       ticketquantity: this.state.ticketquantity,
       ticketprice: this.state.ticketprice,
+      ticketimage: this.state.ticketimage,
       ticketstartdate: this.state.ticketstartdate,
       ticketenddate: this.state.ticketenddate,
       ticketstarttime: this.state.ticketstarttime,
@@ -68,8 +74,41 @@ let id = this.state.id;
       [e.target.name]: e.target.value,
     });
   }
+  createImage(file) {
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      this.setState({
+        ticketimage: e.target.result
+      })
+    };
+    reader.readAsDataURL(file);
+  }
+  onChange(e) {
+    let files = e.target.files || e.dataTransfer.files;
+    if (!files.length)
+      return;
+      this.createImage(files[0]);
+      this.setState({ ticketimageuploaded: true });
+  }
+  createImage(file) {
+    let reader = new FileReader();
+    reader.onload = (e) => {
+      this.setState({
+        ticketimage: e.target.result
+      })
+    };
+    reader.readAsDataURL(file);
+  }
 
 render () {
+  const ticketimageuploaded = this.state.ticketimageuploaded;
+    let coverimage;
+
+    if (ticketimageuploaded) {
+      coverimage = <img style={{ width: 800, height: 200 }} src={this.state.ticketimage} />;
+    } else {
+      coverimage = <img style={{ width: 800, height: 200 }} src={this.state.ticketimage} />;
+    }
   return (
     <div>
       <Button variant="outlined" color="primary" onClick={this.handleClickOpen} >
@@ -78,7 +117,7 @@ render () {
       <Dialog open={this.state.setOpen} onClose={this.handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Modify Ticket</DialogTitle>
         <DialogContent>
-          <form >
+          <form component={'span'}>
             < Grid container spacing={3} className="griditem">
               <Grid item xs={4}>
                 <TextField id="ticketname" name="ticketname"  value={this.state.ticketname} onChange={this.handleChange} label="Ticket's name" />
@@ -94,14 +133,14 @@ render () {
             </Grid>
             < Grid container spacing={3} className="griditem">
               <Grid item xs={4}>
-                <TextField type='date' id="ticketstartdate"  name="ticketstartdate"  value={this.state.ticketstartdate} onChange={this.handleChange} label='Start date'
+                <TextField type='date' id="ticketstartdate"  name="ticketstartdate"  value={moment(this.state.ticketstartdate).format('YYYY-MM-DD')} onChange={this.handleChange} label='Start date'
                   InputLabelProps={{
                     shrink: true,
                   }} />
               </Grid>
 
               <Grid item xs={4}>
-                <TextField type='date' id="ticketenddate" name="ticketenddate"  value={this.state.ticketenddate} onChange={this.handleChange} label='End date'
+                <TextField type='date' id="ticketenddate" name="ticketenddate"  value={moment(this.state.ticketenddate).format('YYYY-MM-DD')} onChange={this.handleChange} label='End date'
                   InputLabelProps={{
                     shrink: true,
                   }} />
@@ -109,14 +148,14 @@ render () {
             </Grid>
             < Grid container spacing={3} className="griditem">
               <Grid item xs={4}>
-                <TextField type='time' id="ticketstarttime" name="ticketstarttime"  value={this.state.ticketstarttime} onChange={this.handleChange} label='Start time'
+                <TextField type='time' id="ticketstarttime" name="ticketstarttime"  value={moment(this.state.ticketstarttime).format('HH:mm')} onChange={this.handleChange} label='Start time'
                   InputLabelProps={{
                     shrink: true,
                   }} />
               </Grid>
 
               <Grid item xs={4}>
-                <TextField type='time' id="ticketendtime" name="ticketendtime"  value={this.state.ticketendtime} onChange={this.handleChange} label='End time'
+                <TextField type='time' id="ticketendtime" name="ticketendtime"  value={moment(this.state.ticketendtime).format('HH:mm')} onChange={this.handleChange} label='End time'
                   InputLabelProps={{
                     shrink: true,
                   }} />
@@ -124,7 +163,22 @@ render () {
 
 
               <Grid item xs={12}>
-                <TicketImageUpload />
+              <input accept="image/*"
+          style={{ display: 'none' }}
+          id="contained-button-ticket-image"
+          multiple
+          type="file"
+          diplay="none"
+          onChange={this.onChange} />
+        <label htmlFor="contained-button-ticket-image" className="upload-button">
+          <Button variant="contained" color="primary" component="span" >
+            Upload Ticket Image
+        </Button>
+        </label>
+        <Box width={800} height={200} marginRight={0.5} my={5}>
+          {coverimage}
+        </Box>
+                {/* <TicketImageUpload image={this.state.ticketimage}/> */}
               </Grid>
             </Grid>
           </form>

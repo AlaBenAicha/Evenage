@@ -80,8 +80,6 @@ function Menu() {
         <Tab label="Stats" {...a11yProps(1)} />
         <Tab label="Tickets" {...a11yProps(2)} />
         <Tab label="Website Builder" {...a11yProps(3)} />
-        {/* <Tab label="Subscribers" {...a11yProps(4)} />
-        <Tab label="Team" {...a11yProps(5)} /> */}
         <Tab label="Payments" {...a11yProps(4)} />
       </Tabs>
       <TabPanel value={value} index={0}>
@@ -91,17 +89,11 @@ function Menu() {
         <Stats />
       </TabPanel>
       <TabPanel value={value} index={2}>
-        <TicketsMenu />
+        <TicketsMenu currentuser={currentUser}/>
       </TabPanel>
       <TabPanel value={value} index={3}>
-      <PageBuilder />
+      <PageBuilder currentuser={currentUser}/>
       </TabPanel>
-      {/* <TabPanel value={value} index={4}>
-        Item Five
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-        Item Six
-      </TabPanel> */}
       <TabPanel value={value} index={4}>
         <PaymentManagement />
       </TabPanel>
