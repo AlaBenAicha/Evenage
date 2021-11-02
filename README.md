@@ -1,6 +1,6 @@
 # Laravel-React Event Management System
 
-Starter Boilerplate SPA made with Laravel and React.
+Made with Laravel and React.
 
 ## Features
 
